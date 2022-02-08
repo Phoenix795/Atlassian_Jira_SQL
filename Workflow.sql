@@ -22,3 +22,13 @@ join nodeassociation as na on na.sink_node_id=wfse.scheme
 join project as p on p.id = na.source_node_id
 where na.sink_node_entity like 'WorkflowScheme'
 order by wfse.workflow;
+
+
+--Find dashbords using some customfields
+select distinct portalpage.id, portalpage.pagename, portalpage.username
+from portalpage 
+inner join portletconfiguration ON portalpage.id = portletconfiguration.portalpage 
+inner join gadgetuserpreference ON portletconfiguration.id = gadgetuserpreference.portletconfiguration 
+where userprefvalue like any (array[
+'%customfield_id%', 
+....]);
