@@ -32,3 +32,10 @@ inner join gadgetuserpreference ON portletconfiguration.id = gadgetuserpreferenc
 where userprefvalue like any (array[
 '%customfield_id%', 
 ....]);
+
+--Find filters with columns using some customfields
+SELECT distinct SR.id, SR.filtername 
+FROM columnlayoutitem    CLI
+INNER JOIN columnlayout  CL  ON CLI.columnlayout = CL.id
+INNER JOIN searchrequest SR  ON CL.searchrequest = SR.id
+WHERE CLI.fieldidentifier IN ('customfield_id')
