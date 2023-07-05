@@ -22,31 +22,3 @@ join nodeassociation as na on na.sink_node_id=wfse.scheme
 join project as p on p.id = na.source_node_id
 where na.sink_node_entity like 'WorkflowScheme'
 order by wfse.workflow;
-
-
---Find dashbords using some customfields
-select distinct portalpage.id, portalpage.pagename, portalpage.username
-from portalpage 
-inner join portletconfiguration ON portalpage.id = portletconfiguration.portalpage 
-inner join gadgetuserpreference ON portletconfiguration.id = gadgetuserpreference.portletconfiguration 
-where userprefvalue like any (array[
-'%customfield_id%', 
-....
-]);
-
---Find dashbords using some filters
-SELECT pp.id, pp.username, pp.pagename, gup.USERPREFVALUE FROM portalpage pp
-JOIN portletconfiguration pc on pp.id = pc.portalpage
-JOIN gadgetuserpreference gup on pc.ID = gup.portletconfiguration
-WHERE gup.USERPREFVALUE like any (array[
-'%filter-id%'
- ....
-])
-order by pp.ID;
-
---Find filters with columns using some customfields
-SELECT distinct SR.id, SR.filtername 
-FROM columnlayoutitem    CLI
-INNER JOIN columnlayout  CL  ON CLI.columnlayout = CL.id
-INNER JOIN searchrequest SR  ON CL.searchrequest = SR.id
-WHERE CLI.fieldidentifier IN ('customfield_id');
